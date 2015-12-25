@@ -25,8 +25,16 @@ object MainKt {
         newGameApi.call().subscribe { doMove(it) }
     }
 
+    var maxScore = 0
+    var maxScoreGameId = ""
+
     fun doMove(it: Game): Unit {
+        if (it.score > maxScore) {
+            maxScore = it.score
+            maxScoreGameId = it.id
+        }
         println(it.score)
+        println("$maxScore $maxScoreGameId")
         if (it.next == -1000) {
             newGameApi.call().subscribe { doMove(it) }
         } else {
