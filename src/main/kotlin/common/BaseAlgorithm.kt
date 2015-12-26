@@ -1,9 +1,5 @@
-package bot
+package common
 
-import common.Game
-import common.MoveApi
-import common.NewGameApi
-import common.RetrofitProvider
 import rx.schedulers.Schedulers
 
 abstract class BaseAlgorithm {

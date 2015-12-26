@@ -1,5 +1,6 @@
 package bot
 
+import common.BaseAlgorithm
 import common.Game
 
 object MainKt : BaseAlgorithm() {
