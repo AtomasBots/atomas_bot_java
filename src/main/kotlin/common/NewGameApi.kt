@@ -1,10 +1,10 @@
 package common
 
+import retrofit.Call
 import retrofit.http.GET
-import rx.Observable
 
 interface NewGameApi {
 
     @GET("/new_game")
-    fun call(): Observable<Game>
+    fun call(): Call<Game>
 }

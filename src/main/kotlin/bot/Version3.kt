@@ -3,7 +3,7 @@ package bot
 import common.BaseAlgorithm
 import common.Game
 
-object MainKt : BaseAlgorithm() {
+object Version3 : BaseAlgorithm() {
 
     override val remote = true
 
