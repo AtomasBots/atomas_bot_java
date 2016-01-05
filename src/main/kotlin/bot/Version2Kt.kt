@@ -1,11 +1,9 @@
 package bot
 
-import common.BaseAlgorithm
 import common.Game
+import common.MoveCalculator
 
-object Version2Kt : BaseAlgorithm() {
-
-    override val remote = true
+object Version2Kt : MoveCalculator {
 
     override fun calculateMove(game: Game): Int {
         if (game.next == 0) {

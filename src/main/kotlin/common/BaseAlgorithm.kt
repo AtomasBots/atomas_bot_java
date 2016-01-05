@@ -1,8 +1,7 @@
 package common
 
-abstract class BaseAlgorithm {
+class BaseAlgorithm(val moveCalculator: MoveCalculator, val remote: Boolean) {
 
-    abstract val remote: Boolean
     private val host = if (remote) "http://89.73.67.164:46176/" else "http://127.0.0.1:8080/"
     private val retrofit = RetrofitProvider.newRetrofit(host)
     private val newGameApi = retrofit.create(NewGameApi::class.java)
@@ -24,7 +23,7 @@ abstract class BaseAlgorithm {
     private fun doMove(game: Game) {
         logStatus(game)
         if (!isEndOfGame(game)) {
-            nextMove(game, calculateMove(game))
+            nextMove(game, moveCalculator.calculateMove(game))
         }
     }
 
@@ -38,9 +37,6 @@ abstract class BaseAlgorithm {
     }
 
     private fun isEndOfGame(game: Game) = game.next == -1000
-
-
-    abstract fun calculateMove(game: Game): Int
 
     private fun nextMove(game: Game, target: Int) {
         doMove(moveApi.call(game.id, target).execute().body())

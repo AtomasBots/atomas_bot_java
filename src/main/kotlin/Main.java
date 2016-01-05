@@ -1,8 +1,9 @@
 import bot.Version3;
+import common.BaseAlgorithm;
 
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        Version3.INSTANCE.main();
+        new BaseAlgorithm(Version3.INSTANCE, true).main();
     }
 }
