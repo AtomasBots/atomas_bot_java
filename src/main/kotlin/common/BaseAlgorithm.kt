@@ -20,11 +20,12 @@ class BaseAlgorithm(val moveCalculator: MoveCalculator, val remote: Boolean) {
         doMove(newGameApi.call().execute().body())
     }
 
-    private fun doMove(game: Game) {
+    private tailrec fun doMove(game: Game) {
         logStatus(game)
-        if (!isEndOfGame(game)) {
-            nextMove(game, moveCalculator.calculateMove(game))
+        if (isEndOfGame(game)) {
+            return
         }
+        doMove(moveApi.call(game.id, moveCalculator.calculateMove(game)).execute().body())
     }
 
     private fun logStatus(game: Game) {
@@ -37,8 +38,4 @@ class BaseAlgorithm(val moveCalculator: MoveCalculator, val remote: Boolean) {
     }
 
     private fun isEndOfGame(game: Game) = game.next == -1000
-
-    private fun nextMove(game: Game, target: Int) {
-        doMove(moveApi.call(game.id, target).execute().body())
-    }
 }
