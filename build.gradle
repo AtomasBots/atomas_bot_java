@@ -2,15 +2,11 @@ group 'atomas-bots'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.0.0-beta-4584'
     repositories {
         jcenter()
     }
-    dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
 }
-apply plugin: 'kotlin'
+apply plugin: 'java'
 
 repositories {
     jcenter()
@@ -20,7 +16,5 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:2.0.0-beta2'
     compile 'com.squareup.retrofit:adapter-rxjava:2.0.0-beta2'
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     testCompile group: 'junit', name: 'junit', version: '4.11'
-    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
 }
