@@ -94,6 +94,8 @@ class GhostBotTestCase {
     fun shouldChooseTheLongerPairWhenThereIsMoreThenOnePair() {
         val game = gameWithBoard(board = arrayListOf(1, 1, 2, 2, 1, 1, 1, 1), next = PLUS_SIGN)
         val move = GhostBot.calculateMove(game)
+
+        //assertEquals(6, move)
     }
 
     @Test // NOT implemented yet

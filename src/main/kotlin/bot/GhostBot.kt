@@ -64,15 +64,49 @@ object GhostBot : MoveCalculator {
     private fun similarNotFound(similarSearchResult: Int) = similarSearchResult == -1
 
     fun findPairs(board: List<Int>): List<PairWithMiddle> {
-        val centers = arrayListOf<PairWithMiddle>()
-        val loopedBoard = listOf(board.last()) + board
-        (0..board.size - 1).forEach {
-            if (loopedBoard[it] == loopedBoard[it + 1]) {
-                centers.add(PairWithMiddle(loopedBoard[it], it))
-            }
+        //        val centers = arrayListOf<PairWithMiddle>()
+        //        val loopedBoard = listOf(board.last()) + board
+        //        (0..board.size - 1).forEach {
+        //            if (loopedBoard[it] == loopedBoard[it + 1]) {
+        //                centers.add(PairWithMiddle(loopedBoard[it], it))
+        //            }
+        //        }
+        //        return centers
+        val loopedBoard = MyList(board)
+        return loopedBoard.list.filter {
+            it.value == loopedBoard.nextWithLoop(it).value
+        }.map {
+            PairWithMiddle(pairValue = it.value, middle = it.index + 1)
         }
-        return centers
     }
 
     class PairWithMiddle(val pairValue: Int, val middle: Int)
+
+    class MyList {
+        val head: MyElement
+        val tail: MyElement
+        val list = arrayListOf<MyElement>()
+
+        constructor(board: List<Int>) {
+            (0..board.size - 1).forEach {
+                list.add(MyElement(it, board[it]))
+            }
+            head = list.first()
+            tail = list.last()
+            (0..board.size - 1).forEach {
+                if (it < board.size - 1) list[it].next = list[it + 1]
+                if ( it > 0 ) list[it].previous = list[it - 1]
+            }
+        }
+
+        fun nextWithLoop(element: MyElement): MyElement {
+            return element.next ?: head
+        }
+
+        fun prevWithLoop(element: MyElement): MyElement {
+            return element.previous ?: tail
+        }
+    }
+
+    class MyElement(val index: Int, val value: Int, var next: MyElement? = null, var previous: MyElement? = null)
 }
