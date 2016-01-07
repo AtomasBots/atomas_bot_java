@@ -82,6 +82,28 @@ class GhostBotTestCase {
         assertEquals(4, move)
     }
 
+    @Test // NOT implemented yet
+    fun shouldChooseTheBiggerPairWhenThereIsMoreThenOnePair() {
+        val game = gameWithBoard(board = arrayListOf(1, 1, 2, 2), next = PLUS_SIGN)
+        val move = GhostBot.calculateMove(game)
+
+        //assertEquals(3, move)
+    }
+
+    @Test // NOT implemented yet
+    fun shouldChooseTheLongerPairWhenThereIsMoreThenOnePair() {
+        val game = gameWithBoard(board = arrayListOf(1, 1, 2, 2, 1, 1, 1, 1), next = PLUS_SIGN)
+        val move = GhostBot.calculateMove(game)
+    }
+
+    @Test // NOT implemented yet
+    fun shouldBuildPairsAroundExistingOne() {
+        val game = gameWithBoard(board = arrayListOf(1,1,3), next = 3)
+        val move = GhostBot.calculateMove(game)
+
+        //assert move == 0
+    }
+
     private fun gameWithBoard(board: ArrayList<Int>, next: Int): Game {
         return Game(id = "", board = board, next = next, round = 0, score = 0)
     }
