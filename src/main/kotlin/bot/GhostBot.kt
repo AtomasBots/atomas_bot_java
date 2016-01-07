@@ -18,9 +18,10 @@ object GhostBot : MoveCalculator {
     }
 
     private fun handlePlus(game: Game): Int {
-        val pairs = findPairs(game.board)
+        val loopedBoard = MyList(game.board)
+        val pairs = findPairs(loopedBoard)
         if (pairs.size > 0 ) {
-            return pairs.maxBy { it.pairValue }!!.middle
+            return pairs.maxBy { it.value }!!.middle
         } else {
             return 0
         }
@@ -63,24 +64,19 @@ object GhostBot : MoveCalculator {
 
     private fun similarNotFound(similarSearchResult: Int) = similarSearchResult == -1
 
-    fun findPairs(board: List<Int>): List<PairWithMiddle> {
-        //        val centers = arrayListOf<PairWithMiddle>()
-        //        val loopedBoard = listOf(board.last()) + board
-        //        (0..board.size - 1).forEach {
-        //            if (loopedBoard[it] == loopedBoard[it + 1]) {
-        //                centers.add(PairWithMiddle(loopedBoard[it], it))
-        //            }
-        //        }
-        //        return centers
-        val loopedBoard = MyList(board)
-        return loopedBoard.list.filter {
-            it.value == loopedBoard.nextWithLoop(it).value
+    fun findPairs(board: MyList): List<PairWithMiddle> {
+        return board.list.filter {
+            it.value == board.nextWithLoop(it).value
         }.map {
-            PairWithMiddle(pairValue = it.value, middle = it.index + 1)
+            PairWithMiddle(it,board.nextWithLoop(it))
         }
     }
 
-    class PairWithMiddle(val pairValue: Int, val middle: Int)
+    class PairWithMiddle(val first: MyElement, val second: MyElement) {
+        val middle = second.index
+        val value = first.value
+
+    }
 
     class MyList {
         val head: MyElement

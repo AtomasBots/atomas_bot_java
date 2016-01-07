@@ -52,7 +52,7 @@ class GhostBotTestCase {
     fun shouldFindCenterOfPairIfThereIsOne() {
         val board = arrayListOf(1, 2, 2, 3)
 
-        val result = GhostBot.findPairs(board).map { it.middle }
+        val result = GhostBot.findPairs(GhostBot.MyList(board)).map { it.middle }
 
         assertEquals(listOf(2), result)
     }
@@ -61,7 +61,7 @@ class GhostBotTestCase {
     fun shouldFindAllCentersOfPairs() {
         val board = arrayListOf(1, 1, 2, 2)
 
-        val result = GhostBot.findPairs(board).map { it.middle }
+        val result = GhostBot.findPairs(GhostBot.MyList(board)).map { it.middle }
 
         assertEquals(listOf(1, 3), result)
     }
