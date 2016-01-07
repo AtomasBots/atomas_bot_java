@@ -21,16 +21,27 @@ object GhostBot : MoveCalculator {
         val loopedBoard = MyList(game.board)
         val pairs = findPairs(loopedBoard)
         if (pairs.size > 0 ) {
-            return pairs.maxBy { it.value }!!.middle
+            return pairs.map { it to calculatePairLength(loopedBoard, it, 0) }.sortedBy { it.first.value }.reversed().maxBy { it.second }!!.first.middle
         } else {
             return 0
         }
     }
 
+    private fun calculatePairLength(board: MyList, pair: PairWithMiddle, result: Int): Int {
+        val prevPrev = board.prevWithLoop(pair.first)
+        val nextNext = board.nextWithLoop(pair.second)
+        if ( prevPrev === nextNext || (prevPrev === pair.second && nextNext === pair.first) ) {
+            return result
+        }
+        if (prevPrev.value == nextNext.value ) {
+            return result + calculatePairLength(board, PairWithMiddle(prevPrev, nextNext), result + 1)
+        }
+        return result
+    }
+
     private fun handleNormalElement(game: Game): Int {
         val similarSearchResult = game.board.indexOfFirst { it == game.next }
         val result = if (similarNotFound(similarSearchResult)) handleWhenThereAreNoSimilarElements(game) else handleWhenThereAreSimilarElements(game, similarSearchResult)
-        println("move ${result}")
         return result
     }
 
@@ -44,7 +55,6 @@ object GhostBot : MoveCalculator {
     }
 
     private fun plusIsNearOurSimilarElement(board: List<Int>, similarSearchResult: Int): Boolean {
-        //        board.forEachIndexed { index, element -> if (element == PLUS_SIGN) plusIndexes.add(index) }
         val plusIndexes = board.mapIndexed { index, element -> Pair(index, element) }.filter { it.second == PLUS_SIGN }.map { it.first }
         return plusIndexes.map { Pair(it, Math.abs(it - similarSearchResult)) }.firstOrNull { it.second == 1 }?.first != null
     }
@@ -68,14 +78,13 @@ object GhostBot : MoveCalculator {
         return board.list.filter {
             it.value == board.nextWithLoop(it).value
         }.map {
-            PairWithMiddle(it,board.nextWithLoop(it))
+            PairWithMiddle(it, board.nextWithLoop(it))
         }
     }
 
     class PairWithMiddle(val first: MyElement, val second: MyElement) {
-        val middle = second.index
+        val middle = (first.index + second.index) / 2 + 1//warning
         val value = first.value
-
     }
 
     class MyList {
