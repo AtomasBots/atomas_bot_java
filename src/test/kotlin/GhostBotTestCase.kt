@@ -52,7 +52,7 @@ class GhostBotTestCase {
     fun shouldFindCenterOfPairIfThereIsOne() {
         val board = arrayListOf(1, 2, 2, 3)
 
-        val result = GhostBot.findPairs(board)
+        val result = GhostBot.findPairs(board).map { it.middle }
 
         assertEquals(listOf(2), result)
     }
@@ -61,7 +61,7 @@ class GhostBotTestCase {
     fun shouldFindAllCentersOfPairs() {
         val board = arrayListOf(1, 1, 2, 2)
 
-        val result = GhostBot.findPairs(board)
+        val result = GhostBot.findPairs(board).map { it.middle }
 
         assertEquals(listOf(1, 3), result)
     }
@@ -82,12 +82,12 @@ class GhostBotTestCase {
         assertEquals(4, move)
     }
 
-    @Test // NOT implemented yet
+    @Test
     fun shouldChooseTheBiggerPairWhenThereIsMoreThenOnePair() {
         val game = gameWithBoard(board = arrayListOf(1, 1, 2, 2), next = PLUS_SIGN)
         val move = GhostBot.calculateMove(game)
 
-        //assertEquals(3, move)
+        assertEquals(3, move)
     }
 
     @Test // NOT implemented yet
